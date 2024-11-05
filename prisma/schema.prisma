@@ -5,30 +5,40 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-model Imovel{
-  id Int @id @default(autoincrement())
-  quartos Int
-  texto String
-  valor Float
-  imagem Imagem[]
-  bairro String
-  rua String
-  cidade String
-  estado String
-  nome String
-  cep Int
-  lat Float
-  long Float
+model Categoria {
+  id         Int         @id @default(autoincrement())
+  nome       String
+  escuderias Escuderia[] @relation("CategoriaEscuderia")
 }
 
-model Imagem{
-  id Int @id @default(autoincrement())
-  imagem String
-  imovel Imovel@relation(fields: [imovel_id], references: [id], onDelete: Cascade )
-  imovel_id Int
+model Escuderia {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  categoriaId Int?
+  categoria   Categoria? @relation("CategoriaEscuderia", fields: [categoriaId], references: [id], onDelete: Cascade)
+  pilotos     Piloto[]
+  carros      Carro[]
+  pontos      Int       @default(0) 
+}
 
+model Piloto {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  escuderiaId Int?
+  escuderia   Escuderia? @relation(fields: [escuderiaId], references: [id], onDelete: Cascade)
+  carro       Carro?
+  pontos      Int       @default(0) 
+}
+
+model Carro {
+  id         Int     @id @default(autoincrement())
+  nome       String
+  escuderiaId Int?
+  escuderia  Escuderia? @relation(fields: [escuderiaId], references: [id], onDelete: Cascade)
+  piloto     Piloto? @relation(fields: [pilotoId], references: [id], onDelete: Cascade)
+  pilotoId   Int?    @unique
 }

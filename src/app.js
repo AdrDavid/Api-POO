@@ -4,12 +4,10 @@ import cors from "cors";
 
 const app = express();
 
-
-app.use('/imagem', express.static('./public/upload'));
-app.use(cors());
+app.use("/imagem", express.static("./public/upload"));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-app.use('/',index);
+app.use("/", index);
 
-
-export {app};
+export { app };
