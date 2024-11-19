@@ -32,6 +32,7 @@ model Piloto {
   escuderia   Escuderia? @relation(fields: [escuderiaId], references: [id], onDelete: Cascade)
   carro       Carro?
   pontos      Int       @default(0) 
+  
 }
 
 model Carro {
@@ -41,4 +42,16 @@ model Carro {
   escuderia  Escuderia? @relation(fields: [escuderiaId], references: [id], onDelete: Cascade)
   piloto     Piloto? @relation(fields: [pilotoId], references: [id], onDelete: Cascade)
   pilotoId   Int?    @unique
+}
+
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  nome      String
+  senha     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("usuarios")
 }
