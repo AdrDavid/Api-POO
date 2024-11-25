@@ -84,7 +84,6 @@ class PilotoController {
     const { pontos } = req.body;
 
     try {
-      // Buscar o piloto atual para obter os pontos antigos e a escuderia associada
       const pilotoAtual = await prisma.piloto.findUnique({
         where: { id: Number(id) },
         include: { escuderia: true },

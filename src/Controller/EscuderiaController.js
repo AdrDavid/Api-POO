@@ -3,7 +3,11 @@ import { prisma } from "../prisma.js";
 class escuderiaController {
   async getAll(req, res, next) {
     try {
-      const escuderia = await prisma.escuderia.findMany();
+      const escuderia = await prisma.escuderia.findMany({
+        orderBy: {
+          pontos: "desc",
+        },
+      });
       res.status(200).json(escuderia);
     } catch (e) {
       res
